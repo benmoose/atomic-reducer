@@ -24,7 +24,7 @@ An Atomic Reducer looks like this:
 }
 ```
 
-The idea is that this is the smallest _atmoic_ state unit, to be composed with other atomic reducers to build more complex reducers. The advantage of this is that each entity by definition completely manages it's own data, loading and error states and whether a particular item is selected.
+The idea is that this reducer is the smallest _atmoic_ state unit, to be composed with other atomic reducers to build more complex reducers. The advantage of this is that each entity completely manages it's own data and avoids bloated reducer logic.
 
 ## Why would I use this?
 It's common for a reducer to manage several entity types. For example a
@@ -103,14 +103,26 @@ With atomic reducer, the above can be re-written as:
 import { combineReducers } from 'redux'
 import createReducer from 'atomic-reducer'
 
-const repos = createReducer('GET_REPOS_REQUEST', 'GET_REPOS_SUCCESS', 'GET_REPOS_FAILURE', 'REPOS_SET_ORDER')
-const usernames = createReducer('GET_USERNAMES_REQUEST', 'GET_USERNAMES_SUCCESS', 'GET_USERNAMES_FAILURE', 'USERNAMES_SET_ORDER')
-const tags = createReducer('GET_TAGS_REQUEST', 'GET_TAGS_SUCCESS', 'GET_TAGS_FAILURE', 'TAGS_SET_ORDER')
+const repos = createReducer(
+  'GET_REPOS_REQUEST',
+  'GET_REPOS_SUCCESS',
+  'GET_REPOS_FAILURE'
+)
+const usernames = createReducer(
+  'GET_USERNAMES_REQUEST',
+  'GET_USERNAMES_SUCCESS',
+  'GET_USERNAMES_FAILURE'
+)
+const tags = createReducer(
+  'GET_TAGS_REQUEST',
+  'GET_TAGS_SUCCESS',
+  'GET_TAGS_FAILURE'
+)
 
 export default combineReducers({ repos, usernames, tags })
 ```
 
-The logic for setting `loading`, `error`, `entities`, `order` and `selected` is all built in, and handling each action type is entirely optional.
+The logic for setting `loading`, `error`, `entities`, `order` and `selected` is all built in, we just need to pass in the action types.
 
 ## Usage
 
