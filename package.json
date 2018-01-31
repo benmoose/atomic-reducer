@@ -4,7 +4,12 @@
   "description": "Encapsulates reducer design, reducing boilerplate",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "babel src -d lib",
+    "pretest": "npm run build",
+    "test": "jest",
+    "preversion": "npm test",
+    "version": "git add -A lib",
+    "postversion": "git push && git push --tags"
   },
   "repository": {
     "type": "git",
@@ -22,5 +27,19 @@
   "bugs": {
     "url": "https://github.com/benjaminhadfield/atomic-reducer/issues"
   },
-  "homepage": "https://github.com/benjaminhadfield/atomic-reducer#readme"
+  "homepage": "https://github.com/benjaminhadfield/atomic-reducer#readme",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-jest": "^22.1.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "jest": "^22.1.4",
+    "redux": "^3.7.2",
+    "redux-mock-store": "^1.5.1",
+    "standard": "^10.0.3",
+    "webpack": "^3.10.0"
+  },
+  "peerDependencies": {
+    "redux": "^1.0.0"
+  }
 }
