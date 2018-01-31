@@ -1,11 +1,6 @@
 /* globals describe, test, expect */
 
-import configureStore from 'redux-mock-store'
-
 import createReducer from '../../index'
-
-const middleware = []
-const mockStore = configureStore(middleware)
 
 describe('createReducer', () => {
   describe('api tests', () => {
