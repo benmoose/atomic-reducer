@@ -4,6 +4,7 @@
 of boilerplate you need to write.
 
 - [Introduction](#introduction)
+- [Installation](#installation)
 - [Why would I use this?](#why-would-i-use-this)
 - [Usage](#usage)
 - [FAQ](#faq)
@@ -25,6 +26,16 @@ An Atomic Reducer looks like this:
 ```
 
 The idea is that this reducer is the smallest _atmoic_ state unit, to be composed with other atomic reducers to build more complex reducers. The advantage of this is that each entity completely manages it's own data and avoids bloated reducer logic.
+
+## Installation
+
+Install with npm or yarn:
+
+```bash
+npm install atomic-reducer
+
+yarn add atomic-reducer
+```
 
 ## Why would I use this?
 It's common for a reducer to manage several entity types. For example a
@@ -242,7 +253,7 @@ For example:
 const getUsers = () => (dispatch) => {
   dispatch({ type: 'GET_USERS_REQUEST' })
   return api({ url: '/users' })
-    .then(res => normalize(res.data, user))
+    .then(res => normalize(res.data, [ user ]))
     .then(({ result, entities }) => {
       // (1) dispatch normalised data
       dispatch({
