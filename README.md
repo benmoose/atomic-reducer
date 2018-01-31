@@ -62,7 +62,7 @@ It's typical to see code like this in these bloated reducers:
 
 ```js
 const reducer = (state = initialState, action) => {
-	switch (action.type) {
+  switch (action.type) {
     case GET_REPOS_REQUEST:
       return {
         ...state,
@@ -132,7 +132,7 @@ You can also pass actions as an object, this is useful if you only want to provi
 
 ```js
 const reducer = createReducer({
-	request: 'REQUEST_ACTION',
+  request: 'REQUEST_ACTION',
   success: 'SUCCESS_ACTION',
   failure: 'FAILURE_ACTION',
   setOrder: 'SET_ORDER_ACTION',
