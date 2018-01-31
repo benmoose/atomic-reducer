@@ -63,35 +63,35 @@ It's typical to see code like this in these bloated reducers:
 ```js
 const reducer = (state = initialState, action) => {
 	switch (action.type) {
-    	case GET_REPOS_REQUEST:
-        	return {
-            	...state,
-                data: {
-                	...state.data,
-                    repos: {
-                    	...state.data.repos,
-                        loading: true
-                    }
-                }
-            }
-    	case GET_REPOS_SUCCESS:
-        	return {
-            	...state,
-                data: {
-                	...state.data,
-                    repos: {
-                    	...state.data.repos,
-                        entities: action.payload,
-                        loading: false
-                    }
-                }
-            }
-        case GET_REPOS_FAILURE:
-        	return { /* ... */ }
+    case GET_REPOS_REQUEST:
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          repos: {
+            ...state.data.repos,
+            loading: true
+          }
+        }
+      }
+    case GET_REPOS_SUCCESS:
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          repos: {
+            ...state.data.repos,
+            entities: action.payload,
+            loading: false
+          }
+        }
+      }
+    case GET_REPOS_FAILURE:
+      return { /* ... */ }
 
-        // ...and so on for each entity type...
-    	default: return state
-    }
+    // ...and so on for each entity type...
+    default: return state
+  }
 }
 ```
 
