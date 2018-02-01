@@ -1,6 +1,14 @@
 /* globals describe, test, expect */
 
-import createReducer from '../../index'
+import createReducer, { configureCreateReducer } from '../../index'
+
+const initialState = {
+  entities: {},
+  order: [],
+  selected: null,
+  loading: false,
+  error: null
+}
 
 describe('createReducer', () => {
   describe('api tests', () => {
@@ -19,7 +27,10 @@ describe('createReducer', () => {
   })
 
   describe('reducer tests', () => {
-    const reducer = createReducer(
+    /**
+     * Define helper vars
+     */
+    const reducerA = createReducer(
       'A_REQUEST',
       'A_SUCCESS',
       'A_FAILURE',
@@ -27,13 +38,23 @@ describe('createReducer', () => {
       'A_SET_SELECTED'
     )
 
-    const initialState = {
-      entities: {},
-      order: [],
-      selected: null,
-      loading: false,
-      error: null
-    }
+    const reducerB = createReducer([
+      'A_REQUEST',
+      'A_SUCCESS',
+      'A_FAILURE',
+      'A_SET_ORDER',
+      'A_SET_SELECTED'
+    ])
+
+    const reducerC = createReducer({
+      request: 'A_REQUEST',
+      success: 'A_SUCCESS',
+      failure: 'A_FAILURE',
+      setOrder: 'A_SET_ORDER',
+      setSelected: 'A_SET_SELECTED'
+    })
+
+    const reducers = [reducerA, reducerB, reducerC]
 
     const loadingState = {
       entities: {},
@@ -43,51 +64,66 @@ describe('createReducer', () => {
       error: null
     }
 
+    /**
+     * Tests start
+     */
     test('returns expected initial state', () => {
       const action = { type: '_' }
-      expect(reducer(undefined, action)).toEqual(initialState)
+      reducers.map(reducer => (
+        expect(reducer(undefined, action)).toEqual(initialState)
+      ))
     })
 
     test('returns given state', () => {
       const action = { type: '_' }
-      expect(reducer({}, action)).toEqual({})
+      reducers.map(reducer => (
+        expect(reducer({}, action)).toEqual({})
+      ))
     })
 
     test('sets \'loading: true\' when request `action.type` received', () => {
       const action = { type: 'A_REQUEST' }
-      expect(reducer(undefined, action)).toEqual(
-        expect.objectContaining({
-          loading: true
-        })
-      )
+      reducers.map(reducer => (
+        expect(reducer(undefined, action)).toEqual(
+          expect.objectContaining({
+            loading: true
+          })
+        )
+      ))
     })
 
     test('sets \'loading: false\' when success `action.type` received', () => {
       const action = { type: 'A_SUCCESS' }
-      expect(reducer(loadingState, action)).toEqual(
-        expect.objectContaining({
-          loading: false
-        })
-      )
+      reducers.map(reducer => (
+        expect(reducer(loadingState, action)).toEqual(
+          expect.objectContaining({
+            loading: false
+          })
+        )
+      ))
     })
 
     test('sets \'loading: false\' and \'error: `action.payload`\' when failure `action.type` received', () => {
       const action = { type: 'A_FAILURE', payload: new Error() }
-      expect(reducer(loadingState, action)).toEqual(
-        expect.objectContaining({
-          loading: false,
-          error: new Error()
-        })
-      )
+      reducers.map(reducer => (
+        expect(reducer(loadingState, action)).toEqual(
+          expect.objectContaining({
+            loading: false,
+            error: new Error()
+          })
+        )
+      ))
     })
 
     test('`action.payload` moved to `entities` when success `action.type` received', () => {
       const action = { type: 'A_SUCCESS', payload: { b: 5 } }
-      expect(reducer(initialState, action)).toEqual(
-        expect.objectContaining({
-          entities: { b: 5 }
-        })
-      )
+      reducers.map(reducer => (
+        expect(reducer(initialState, action)).toEqual(
+          expect.objectContaining({
+            entities: { b: 5 }
+          })
+        )
+      ))
     })
 
     test('`action.payload` does not delete existing entities in state', () => {
@@ -96,11 +132,13 @@ describe('createReducer', () => {
         ...initialState,
         entities: { a: 4 }
       }
-      expect(reducer(state, action)).toEqual(
-        expect.objectContaining({
-          entities: { a: 4, b: 5 }
-        })
-      )
+      reducers.map(reducer => (
+        expect(reducer(state, action)).toEqual(
+          expect.objectContaining({
+            entities: { a: 4, b: 5 }
+          })
+        )
+      ))
     })
 
     test('`action.payload` overrites identical keys in state', () => {
@@ -109,20 +147,24 @@ describe('createReducer', () => {
         ...initialState,
         entities: { a: 4 }
       }
-      expect(reducer(state, action)).toEqual(
-        expect.objectContaining({
-          entities: { a: 5 }
-        })
-      )
+      reducers.map(reducer => (
+        expect(reducer(state, action)).toEqual(
+          expect.objectContaining({
+            entities: { a: 5 }
+          })
+        )
+      ))
     })
 
     test('order set to `action.payload` when setOrder `action.type` received', () => {
       const action = { type: 'A_SET_ORDER', payload: [1, 3, 2] }
-      expect(reducer(initialState, action)).toEqual(
-        expect.objectContaining({
-          order: [1, 3, 2]
-        })
-      )
+      reducers.map(reducer => (
+        expect(reducer(initialState, action)).toEqual(
+          expect.objectContaining({
+            order: [1, 3, 2]
+          })
+        )
+      ))
     })
 
     test('setOrder `action.type` overrites state\'s order', () => {
@@ -131,20 +173,78 @@ describe('createReducer', () => {
         ...initialState,
         order: [1, 2, 3, 4, 5, 6]
       }
-      expect(reducer(state, action)).toEqual(
-        expect.objectContaining({
-          order: [1, 3, 2]
-        })
-      )
+      reducers.map(reducer => (
+        expect(reducer(state, action)).toEqual(
+          expect.objectContaining({
+            order: [1, 3, 2]
+          })
+        )
+      ))
     })
 
     test('selected set to `action.payload` when setSelected `action.type` received', () => {
       const action = { type: 'A_SET_SELECTED', payload: 5 }
-      expect(reducer(initialState, action)).toEqual(
-        expect.objectContaining({
-          selected: 5
-        })
+      reducers.map(reducer => (
+        expect(reducer(initialState, action)).toEqual(
+          expect.objectContaining({
+            selected: 5
+          })
+        )
+      ))
+    })
+  })
+})
+
+describe('configureCreateReducer', () => {
+  describe('api tests', () => {
+    test('can import `configureCreateReducer`', () => {
+      expect(configureCreateReducer).toBeInstanceOf(Function)
+    })
+  })
+
+  describe('custom config tests', () => {
+    test('custom mapping works as expected', () => {
+      const mappedInstance = configureCreateReducer({
+        mapping: {
+          entities: 'data',
+          loading: 'isFetching'
+        }
+      })
+
+      const mappingReducer = mappedInstance(
+        'A_REQUEST',
+        'A_SUCCESS',
+        'A_FAILURE',
+        'A_SET_ORDER',
+        'A_SET_SELECTED'
       )
+
+      const action1 = { type: '_' }
+      expect(mappingReducer(undefined, action1)).toEqual({
+        data: {},
+        order: [],
+        selected: null,
+        isFetching: false,
+        error: null
+      })
+
+      const action2 = { type: 'A_REQUEST' }
+      expect(mappingReducer(undefined, action2)).toEqual({
+        data: {},
+        order: [],
+        selected: null,
+        isFetching: true,
+        error: null
+      })
+
+      const action3 = { type: 'A_SUCCESS', payload: { 1: 'foo' } }
+      expect(mappingReducer(undefined, action3)).toEqual({
+        data: { 1: 'foo' },
+        order: [],
+        selected: null,
+        isFetching: false,
+        error: null
+      })
     })
   })
 })

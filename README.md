@@ -241,6 +241,23 @@ case setSelected:
   }
 ```
 
+## Custom reducers
+
+You can provide a custom configuration to generate bespoke `createReducer` functions.
+
+Currently, the only supported configuration option is `mapping`, which lets you define custom names for each field (e.g. `entities` -> `data`).
+
+```js
+import { configureCreateReducer } from 'atomic-reducer'
+
+const customCreateReducer = configureCreateReducer({
+  mapping: {
+    entities: 'data',
+    loading: 'isFetching'
+  }
+})
+```
+
 ## FAQ
 
 ##### Q. I want to set entities and order at the same time
