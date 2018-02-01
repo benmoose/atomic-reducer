@@ -7,6 +7,7 @@ of boilerplate you need to write.
 - [Installation](#installation)
 - [Why would I use this?](#why-would-i-use-this)
 - [Usage](#usage)
+- [Customisation](#customisation)
 - [FAQ](#faq)
 - [Next Steps](#next-steps)
 - [Contributing](#contributing)
@@ -241,7 +242,7 @@ case setSelected:
   }
 ```
 
-## Custom reducers
+## Customisation
 
 You can provide a custom configuration to generate bespoke `createReducer` functions.
 
