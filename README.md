@@ -1,5 +1,7 @@
 # ⚛ Atomic Reducer
 
+[![Build Status](https://travis-ci.org/benjaminhadfield/atomic-reducer.svg?branch=master)](https://travis-ci.org/benjaminhadfield/atomic-reducer)
+
 **Atomic Reducer** encapsulates a common reducer pattern, reducing the amount
 of boilerplate you need to write.
 
@@ -292,7 +294,9 @@ If you hate doing this, then this pattern can easily be extracted to a helper fu
 
 ## Next steps
 
-See the project board for a list of upcoming features.
+See the issues tracker for items with the `in-progress` label for a list of
+features and enhancements currently under development. If you have any
+suggestions then please create an issue of your own.
 
 ## Contributing
 
