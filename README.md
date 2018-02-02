@@ -33,7 +33,7 @@ single entity, thereby avoiding bloated reducer logic.
 
 ## Quick start
 
-1. Install with `npm` or `yarn`
+Install with `npm` or `yarn`.
 
 ```sh
 npm install atomic-reducer
@@ -43,20 +43,19 @@ npm install atomic-reducer
 yarn add atomic-reducer
 ```
 
-2. Import into your reducer's file, and hook each reducer up to your action
-types
-
-_For example a reducer holding GitHub usernames and repositories might look like
-this_
+3. Define each atomic reducer by passing action types, optionally compose
+them together using `combineReducers`
 
 ```js
 // github/reducer.js
 
+// import `createReducer` into your reducer file
 import { combineReducers } from 'redux'
 import createReducer from 'atomic-reducer'
 
 import * as actionTypes from './actions'
 
+// Define each atomic reducer by passing action types
 const username = createReducer(
   actionTypes.GET_USERNAMES_REQUEST,
   actionTypes.GET_USERNAMES_SUCCESS,
@@ -73,6 +72,7 @@ const repo = createReducer(
   actionTypes.SET_REPOS_SELECTED
 )
 
+// optionally compose them together using redux's `combineReducers`
 export default combineReducers({ username, repo })
 ```
 
@@ -97,9 +97,9 @@ This file exports a reducer with the following shape.
 }
 ```
 
-Dispatching the given actions will update the relevent part of the state,
-taking data from `action.payload`. See [usage](#usage) for more information
-on the reducer logic and action format.
+Dispatching the corresponding actions will update the relevent part of the
+state, taking data from `action.payload`. See [usage](#usage) for more
+information on the reducer logic and action format.
 
 ## Why would I use this?
 It's common for a reducer to manage several entity types. For example a
