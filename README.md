@@ -317,7 +317,7 @@ case setOrder:
   }
 ```
 
-##### `setSelected`
+#### `setSelected`
 
 `action.payload` sets `state.selected`.
 
