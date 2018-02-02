@@ -1,5 +1,8 @@
 # ⚛ Atomic Reducer
 
+[![Build Status](https://travis-ci.org/benjaminhadfield/atomic-reducer.svg?branch=master)](https://travis-ci.org/benjaminhadfield/atomic-reducer)
+[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+
 **Atomic Reducer** encapsulates a common reducer pattern, reducing the amount
 of boilerplate you need to write.
 
@@ -7,6 +10,7 @@ of boilerplate you need to write.
 - [Quick start](#quick-start)
 - [Why would I use this?](#why-would-i-use-this)
 - [Usage](#usage)
+- [Customisation](#customisation)
 - [FAQ](#faq)
 - [Next Steps](#next-steps)
 - [Contributing](#contributing)
@@ -327,6 +331,39 @@ case setSelected:
     ...state,
     selected: action.payload
   }
+```
+
+## Customisation
+
+You can provide a custom configuration to generate a bespoke `createReducer` function.
+
+Currently, the only supported configuration option is `logic`, which lets you define custom reducer logic for each event type.
+
+#### `logic`
+
+An object mapping events to a function that accepts the current state and should
+return the new state. See the redux documentation for good reducer practices.
+
+Logic key names are:
+ - `request`
+ - `success`
+ - `failure`
+ - `setOrder`
+ - `setSelected`
+
+```js
+import { configureCreateReducer } from 'atomic-reducer'
+
+const customCreateReducer = configureCreateReducer({
+  logic: {
+    setOrder: (state, action) => ({
+      ...state,
+      order: [...action.payload, ...state.order]
+    })
+  }
+})
+
+// use customCreateReducer instead of createReducer...
 ```
 
 ## FAQ

@@ -1,48 +1,14 @@
 import { _parseArgs } from '../utils'
 
-export const createReducer = (...args) => {
+export const createReducer = ({ initialState, logic }) => (...args) => {
   const { request, success, failure, setOrder, setSelected } = _parseArgs(args)
-
-  const initialState = {
-    entities: {},
-    order: [],
-    selected: null,
-    loading: false,
-    error: null
-  }
-
   return (state = initialState, action) => {
     switch (action.type) {
-      case request:
-        return {
-          ...state,
-          loading: true
-        }
-      case success:
-        return {
-          ...state,
-          entities: {
-            ...state.entities,
-            ...action.payload
-          },
-          loading: false
-        }
-      case failure:
-        return {
-          ...state,
-          loading: false,
-          error: action.payload
-        }
-      case setOrder:
-        return {
-          ...state,
-          order: action.payload
-        }
-      case setSelected:
-        return {
-          ...state,
-          selected: action.payload
-        }
+      case request: return logic.request(state, action)
+      case success: return logic.success(state, action)
+      case failure: return logic.failure(state, action)
+      case setOrder: return logic.setOrder(state, action)
+      case setSelected: return logic.setSelected(state, action)
       default: return state
     }
   }
