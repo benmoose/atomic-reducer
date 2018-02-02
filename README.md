@@ -43,8 +43,7 @@ npm install atomic-reducer
 yarn add atomic-reducer
 ```
 
-3. Define each atomic reducer by passing action types, optionally compose
-them together using `combineReducers`
+Define atomic reducer's in your project.
 
 ```js
 // github/reducer.js
