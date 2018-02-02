@@ -256,7 +256,7 @@ Each atomic reducer responds to the following events
 
 | Event Name | Description | Expected `action.payload` |
 | ---------- | ----------- | ------------------------- |
-| `request` | Sets `loading` to `true` | _not used_
+| `request` | Sets `loading` to `true` | _n/a_
 | `success` | Merge `action.payload` with `entities`, sets `loading` to `false` | `object<Key, Value>` |
 | `failure` | Sets `error` to `action.payload`, sets `loading` to `false` | `Error` |
 | `setOrder` | Sets `order` to `action.payload` | `array<Key>` |
@@ -366,7 +366,7 @@ function which dispatches the two actions for you in one call.
 
 ## Next steps
 
-_TODO._
+_TODO_
 
 ## Contributing
 
