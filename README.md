@@ -356,12 +356,14 @@ import { configureCreateReducer } from 'atomic-reducer'
 
 const customCreateReducer = configureCreateReducer({
   logic: {
-    success: (state, action) => ({
+    setOrder: (state, action) => ({
       ...state,
-      entities: action.payload  // replace with `action.payload` instead of merge
+      order: [...action.payload, ...state.order]
     })
   }
 })
+
+// use customCreateReducer instead of createReducer...
 ```
 
 ## FAQ
