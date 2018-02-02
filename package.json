@@ -1,6 +1,6 @@
 {
   "name": "atomic-reducer",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Encapsulates reducer design, reducing boilerplate",
   "main": "index.js",
   "scripts": {
