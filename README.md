@@ -106,7 +106,7 @@ information on the reducer logic and action format.
 
 ## Why would I use this?
 It's common for a reducer to manage several entity types. For example a
-_GitHub_ reducer might look something like this:
+_GitHub_ reducer might manage a state like this:
 
 ```js
 // github reducer initial state
@@ -135,9 +135,7 @@ _GitHub_ reducer might look something like this:
 ```
 
 This can lead to bloated reducers, which have to deal with repeated logic across
-all these data types.
-
-It's typical to see code like this in these bloated reducers:
+all these data types. As a result, it's not uncommon to see logic like this:
 
 ```js
 const reducer = (state = initialState, action) => {
@@ -175,10 +173,9 @@ const reducer = (state = initialState, action) => {
 ```
 
 As you can imagine, this can easily lead to repetition. Furthermore, it becomes
-painful to manage nested state (setting the `loading` property for the `repo`
-entity takes 10 lines in this example 😵).
+painful to manage nested state (10 lines just to set `loading: true` 😵).
 
-With atomic reducer, the above can be re-written as:
+With Atomic Reducer, the above can be re-written as:
 
 ```js
 import { combineReducers } from 'redux'
