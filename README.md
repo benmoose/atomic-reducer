@@ -334,17 +334,31 @@ case setSelected:
 
 ## Customisation
 
-You can provide a custom configuration to generate bespoke `createReducer` functions.
+You can provide a custom configuration to generate a bespoke `createReducer` function.
 
-Currently, the only supported configuration option is `mapping`, which lets you define custom names for each field (e.g. `entities` -> `data`).
+Currently, the only supported configuration option is `logic`, which lets you define custom reducer logic for each event type.
+
+#### `logic`
+
+An object mapping events to a function that accepts the current state and should
+return the new state. See the redux documentation for good reducer practices.
+
+Valid logic key names are:
+ - `request`
+ - `success`
+ - `failure`
+ - `setOrder`
+ - `setSelected`
 
 ```js
 import { configureCreateReducer } from 'atomic-reducer'
 
 const customCreateReducer = configureCreateReducer({
-  mapping: {
-    entities: 'data',
-    loading: 'isFetching'
+  logic: {
+    success: (state, action) => ({
+      ...state,
+      entities: action.payload  // replace with `action.payload` instead of merge
+    })
   }
 })
 ```
