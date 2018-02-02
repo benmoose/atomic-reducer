@@ -1,6 +1,6 @@
 import { _parseArgs } from '../utils'
 
-export const createReducer = ({ mapping, initialState, logic }) => (...args) => {
+export const createReducer = ({ initialState, logic }) => (...args) => {
   const { request, success, failure, setOrder, setSelected } = _parseArgs(args)
   return (state = initialState, action) => {
     switch (action.type) {

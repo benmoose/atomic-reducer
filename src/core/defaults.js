@@ -1,46 +1,37 @@
-// define default mapping
-export const defaultMapping = {
-  entities: 'entities',
-  order: 'order',
-  selected: 'selected',
-  loading: 'loading',
-  error: 'error'
+// default initial state (specified here to allow for future user customisation)
+export const initialState = {
+  entities: {},
+  order: [],
+  selected: null,
+  loading: false,
+  error: null
 }
 
-// define initialState
-export const initialState = mapping => ({
-  [mapping.entities]: {},
-  [mapping.order]: [],
-  [mapping.selected]: null,
-  [mapping.loading]: false,
-  [mapping.error]: null
-})
-
-// define logic
-export const logic = mapping => ({
+// default logic
+export const logic = {
   request: (state, action) => ({
     ...state,
-    [mapping.loading]: true
+    loading: true
   }),
   success: (state, action) => ({
     ...state,
-    [mapping.entities]: {
+    entities: {
       ...state.entities,
       ...action.payload
     },
-    [mapping.loading]: false
+    loading: false
   }),
   failure: (state, action) => ({
     ...state,
-    [mapping.loading]: false,
-    [mapping.error]: action.payload
+    loading: false,
+    error: action.payload
   }),
   setOrder: (state, action) => ({
     ...state,
-    [mapping.order]: action.payload
+    order: action.payload
   }),
   setSelected: (state, action) => ({
     ...state,
-    [mapping.selected]: action.payload
+    selected: action.payload
   })
-})
+}

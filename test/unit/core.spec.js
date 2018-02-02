@@ -56,14 +56,6 @@ describe('createReducer', () => {
 
     const reducers = [reducerA, reducerB, reducerC]
 
-    const loadingState = {
-      entities: {},
-      order: [],
-      selected: null,
-      loading: true,
-      error: null
-    }
-
     /**
      * Tests start
      */
@@ -95,7 +87,7 @@ describe('createReducer', () => {
     test('sets \'loading: false\' when success `action.type` received', () => {
       const action = { type: 'A_SUCCESS' }
       reducers.map(reducer => (
-        expect(reducer(loadingState, action)).toEqual(
+        expect(reducer({ ...initialState, loading: true }, action)).toEqual(
           expect.objectContaining({
             loading: false
           })
@@ -106,7 +98,7 @@ describe('createReducer', () => {
     test('sets \'loading: false\' and \'error: `action.payload`\' when failure `action.type` received', () => {
       const action = { type: 'A_FAILURE', payload: new Error() }
       reducers.map(reducer => (
-        expect(reducer(loadingState, action)).toEqual(
+        expect(reducer({ ...initialState, loading: true }, action)).toEqual(
           expect.objectContaining({
             loading: false,
             error: new Error()
@@ -203,47 +195,67 @@ describe('configureCreateReducer', () => {
   })
 
   describe('custom config tests', () => {
-    test('custom mapping works as expected', () => {
-      const mappedInstance = configureCreateReducer({
-        mapping: {
-          entities: 'data',
-          loading: 'isFetching'
-        }
-      })
+    const instance = configureCreateReducer({
+      logic: {
+        request: state => ({ ...state, loading: 'IN_PROGRESS' }),
+        success: (state, action) => ({ ...state, entities: action.payload, loading: 'DONE' }),
+        failure: state => ({ ...state, error: true, loading: 'DONE' })
+      }
+    })
 
-      const mappingReducer = mappedInstance(
-        'A_REQUEST',
-        'A_SUCCESS',
-        'A_FAILURE',
-        'A_SET_ORDER',
-        'A_SET_SELECTED'
-      )
+    const reducer = instance(
+      'A_REQUEST',
+      'A_SUCCESS',
+      'A_FAILURE',
+      'A_SET_ORDER',
+      'A_SET_SELECTED'
+    )
 
-      const action1 = { type: '_' }
-      expect(mappingReducer(undefined, action1)).toEqual({
-        data: {},
+    test('default state still returned', () => {
+      const action = { type: '_' }
+      expect(reducer(undefined, action)).toEqual(initialState)
+    })
+
+    test('custom request logic works as expected', () => {
+      const requestAction = { type: 'A_REQUEST' }
+      expect(reducer(undefined, requestAction)).toEqual({
+        entities: {},
         order: [],
         selected: null,
-        isFetching: false,
+        loading: 'IN_PROGRESS',
         error: null
       })
+    })
 
-      const action2 = { type: 'A_REQUEST' }
-      expect(mappingReducer(undefined, action2)).toEqual({
-        data: {},
+    test('custom success logic works as expected', () => {
+      const state = {
+        ...initialState,
+        entities: { z: 5 }
+      }
+
+      const successAction = { type: 'A_SUCCESS', payload: { a: 5 } }
+      expect(reducer(state, successAction)).toEqual({
+        entities: { a: 5 },  // deletes z
         order: [],
         selected: null,
-        isFetching: true,
+        loading: 'DONE',
         error: null
       })
+    })
 
-      const action3 = { type: 'A_SUCCESS', payload: { 1: 'foo' } }
-      expect(mappingReducer(undefined, action3)).toEqual({
-        data: { 1: 'foo' },
+    test('custom failure logic works as expected', () => {
+      const state = {
+        ...initialState,
+        entities: { z: 5 }
+      }
+
+      const failureAction = { type: 'A_FAILURE' }
+      expect(reducer(state, failureAction)).toEqual({
+        entities: { z: 5 },
         order: [],
         selected: null,
-        isFetching: false,
-        error: null
+        loading: 'DONE',
+        error: true
       })
     })
   })
