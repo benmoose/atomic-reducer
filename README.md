@@ -33,7 +33,7 @@ single entity, thereby avoiding bloated reducer logic.
 
 ## Quick start
 
-1. Install with npm or yarn:
+1. Install with `npm` or `yarn`
 
 ```sh
 npm install atomic-reducer
@@ -43,7 +43,11 @@ npm install atomic-reducer
 yarn add atomic-reducer
 ```
 
-2. Import into your reducer's file
+2. Import into your reducer's file, and hook each reducer up to your action
+types
+
+_For example a reducer holding GitHub usernames and repositories might look like
+this_
 
 ```js
 // github/reducer.js
