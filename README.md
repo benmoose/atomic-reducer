@@ -252,7 +252,17 @@ const reducer = createReducer({
 
 ### Reducer logic
 
-Each action encapsulates the following logic:
+Each atomic reducer responds to the following events
+
+| Event Name | Description | Expected `action.payload` |
+| ---------- | ----------- | ------------------------- |
+| `request` | Sets `loading` to `true` | _not used_
+| `success` | Merge `action.payload` with `entities`, sets `loading` to `false` | `object<Key, Value>` |
+| `failure` | Sets `error` to `action.payload`, sets `loading` to `false` | `Error` |
+| `setOrder` | Sets `order` to `action.payload` | `array<Key>` |
+| `setSelected` | Sets `selected` to `action.payload` | `<Key>` |
+
+The exact implementation for each case is as follows.
 
 #### `request`
 
