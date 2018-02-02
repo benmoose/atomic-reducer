@@ -344,7 +344,7 @@ Currently, the only supported configuration option is `logic`, which lets you de
 An object mapping events to a function that accepts the current state and should
 return the new state. See the redux documentation for good reducer practices.
 
-Valid logic key names are:
+Logic key names are:
  - `request`
  - `success`
  - `failure`
