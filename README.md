@@ -1,6 +1,7 @@
 # ⚛ Atomic Reducer
 
 [![Build Status](https://travis-ci.org/benjaminhadfield/atomic-reducer.svg?branch=master)](https://travis-ci.org/benjaminhadfield/atomic-reducer)
+[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
 **Atomic Reducer** encapsulates a common reducer pattern, reducing the amount
 of boilerplate you need to write.
