@@ -305,7 +305,7 @@ case failure:
     error: action.payload
   }
 ```
-##### `setOrder`
+#### `setOrder`
 
 `action.payload` sets the `state.order`.
 
