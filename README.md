@@ -305,7 +305,7 @@ case failure:
     error: action.payload
   }
 ```
-##### `setOrder`
+#### `setOrder`
 
 `action.payload` sets the `state.order`.
 
@@ -317,7 +317,7 @@ case setOrder:
   }
 ```
 
-##### `setSelected`
+#### `setSelected`
 
 `action.payload` sets `state.selected`.
 
