@@ -3,12 +3,13 @@ const ACTION_KEYS = [
   'success',
   'failure',
   'setOrder',
-  'setSelected'
+  'setSelected',
+  'setEntity'
 ]
 
 /**
- * Takes an object `obj` and returns a new object with keys not in `drawFrom`
- * removed.
+ * Takes an object `obj` and returns a new object with only keys from
+ * `drawFrom`.
  * @param {object} obj
  * @param {array} drawFrom
  */
@@ -43,9 +44,9 @@ export const _isActionsObjectValid = (actionsObject, drawFrom) => {
 export const _actionsObjectFromArray = (arr, drawFrom) => {
   if (arr.length === 0 || arr.length > drawFrom.length) {
     throw TypeError(
-      `Cannot create an actions object from array that is longer than the length
-      of actionKeys. The given array was of length ${arr.length} but it cannot
-      exceed length ${ACTION_KEYS.length}.
+      `Cannot create an actions object from array that is empty or longer than
+      the length of actionKeys. The given array was of length ${arr.length} but
+      length must be greater an 0 and not greater than ${ACTION_KEYS.length}.
     `)
   }
   return arr.reduce((acc, action, i) => {

@@ -33,5 +33,15 @@ export const logic = {
   setSelected: (state, action) => ({
     ...state,
     selected: action.payload
+  }),
+  setEntity: (state, action) => ({
+    ...state,
+    entities: {
+      ...state.entities,
+      [action.payload.id]: {
+        ...state.entities[action.payload.id],
+        ...action.payload
+      }
+    }
   })
 }

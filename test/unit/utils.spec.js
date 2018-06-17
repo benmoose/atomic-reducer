@@ -11,7 +11,8 @@ const ACTION_KEYS = [
   'success',
   'failure',
   'setOrder',
-  'setSelected'
+  'setSelected',
+  'setEntity'
 ]
 
 describe('_isActionsObjectValid', () => {
@@ -49,7 +50,7 @@ describe('_actionsObjectFromArray', () => {
   test('produces the correct actions object', () => {
     const a1 = ['REQUEST']
     const a2 = ['REQUEST', 'SUCCESS', 'FAILURE']
-    const a3 = ['REQUEST', 'SUCCESS', 'FAILURE', 'SET_ORDER', 'SET_SELECTED']
+    const a3 = ['REQUEST', 'SUCCESS', 'FAILURE', 'SET_ORDER', 'SET_SELECTED', 'SET_ENTITY']
     const a4 = ['1', '2']
     expect(_actionsObjectFromArray(a1, ACTION_KEYS)).toEqual({
       request: 'REQUEST'
@@ -64,7 +65,8 @@ describe('_actionsObjectFromArray', () => {
       success: 'SUCCESS',
       failure: 'FAILURE',
       setOrder: 'SET_ORDER',
-      setSelected: 'SET_SELECTED'
+      setSelected: 'SET_SELECTED',
+      setEntity: 'SET_ENTITY'
     })
     expect(_actionsObjectFromArray(a4, ['one', 'two'])).toEqual({
       one: '1',
@@ -83,10 +85,16 @@ describe('_actionsObjectFromArray', () => {
 describe('_parseArgs', () => {
   describe('argument: object', () => {
     test('returns actions object when passed valid object', () => {
-      const args = [{ request: 'REQUEST', setOrder: 'SET_ORDER', foo: 'bar' }]
+      const args = [{
+        request: 'REQUEST',
+        setOrder: 'SET_ORDER',
+        setEntity: 'SET_ENTITY',
+        foo: 'bar'
+      }]
       expect(_parseArgs(args)).toEqual({
         request: 'REQUEST',
-        setOrder: 'SET_ORDER'
+        setOrder: 'SET_ORDER',
+        setEntity: 'SET_ENTITY'
       })
     })
 
